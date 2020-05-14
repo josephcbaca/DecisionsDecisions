@@ -1,16 +1,12 @@
 $(document).ready(function () {
 
     // Prompt user upon entry
-    let entryValue = localStorage.getItem("cuisineEntry")
-    let previousValue = localStorage.getItem("previousCuisine")
+    let entryValue = localStorage.getItem("cuisineEntry");
+    let previousValue = localStorage.getItem("previousCuisine");
 
-    //If local storage = something show "Back Again" message:  We're happy to have you back again!  How did you enjoy your (last local storage entry)?  Did you end up cooking something up or venturing out to a restaurant?
+    //If local storage
     if (entryValue === "true") {
-
         // "Back Again" pop up
-
-
-
         let overlayDiv = $("<div>");
         overlayDiv.addClass("col s12 m6 overlay-1");
         $("body").append(overlayDiv);
@@ -23,29 +19,25 @@ $(document).ready(function () {
         cardoverDiv.addClass("card-content white-text pop-content");
         cardoverDiv.text("We're happy to have you back again!  How did you enjoy your " + previousValue + " food?  Did you end up cooking something up or venturing out to a restaurant?")
         $(".card-over-1").append(cardoverDiv);
-        
+
         let cardAction = $("<div>");
         cardAction.addClass("card-action");
         $(".card-over-1").append(cardAction);
 
         let popA1 = $("<a>");
-
-        popA1.addClass("col s12");
-        popA1.text("I Cooked!");
+        popA1.addClass("col-md-12");
+        popA1.text("I Grabbed Something!");
         popA1.attr("id", "popup-1");
         $(".card-action").append(popA1);
 
         let popA2 = $("<a>");
-        popA2.addClass("col s12");
-        popA2.text("I Grabbed Something!");
-
+        popA2.addClass("col-md-12");
+        popA2.text("I Cooked!");
         popA2.attr("id", "popup-2");
         $(".card-action").append(popA2);
 
     } else {
-
         // "First Time" pop up
-
         let overlayDiv = $("<div>");
         overlayDiv.addClass("col s12 m6 overlay-1");
         $("body").append(overlayDiv);
@@ -58,7 +50,7 @@ $(document).ready(function () {
         cardoverDiv.addClass("card-content white-text pop-content");
         cardoverDiv.text("Hungry?  We're here to help! Since this is your first time visiting our site, simply type in what you are craving (i.e. Italian), click search and let us do the rest!")
         $(".card-over-1").append(cardoverDiv);
-        
+
         let cardAction = $("<div>");
         cardAction.addClass("card-action");
         $(".card-over-1").append(cardAction);
@@ -67,12 +59,9 @@ $(document).ready(function () {
         popA3.text("Click to start!");
         popA3.attr("id", "popup-start");
         $(".card-action").append(popA3);
-
     }
 
-
     // Adds 0 value to localStorage
-
     $("#popup-start").on("click", function () {
         $(".overlay-1").hide();
         localStorage.setItem("restaurant", 0)
@@ -91,7 +80,6 @@ $(document).ready(function () {
         let addedRec = addRecipe + 1;
         localStorage.setItem("recipe", addedRec);
     });
-
 
     // Input Group
     let headerDiv = $("<div>");
@@ -139,9 +127,8 @@ $(document).ready(function () {
     });
 
     function searchRestaurant(cuisine) {
-
         // API Restaurants Zomato.com
-        let APIKey = "34e52954cf804b1932d1e06de180b698";
+        let APIKey = "";
         let queryURL = "https://developers.zomato.com/api/v2.1/search?entity_id=279&entity_type=city&q=" + cuisine + "&count=100&sort=rating&order=desc&apikey=" + APIKey;
         // API Recipes Tasty via rapidapi.com
         let settings = {
@@ -151,13 +138,12 @@ $(document).ready(function () {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "tasty.p.rapidapi.com",
-                "x-rapidapi-key": "6b993b882bmsha7daac7eff39d3cp1825fcjsn0ba77ad0c74a"
+                "x-rapidapi-key": ""
             }
         }
 
         // AJAX call to first call Recipes JSON data
         $.ajax(settings).then(function (response2) {
-
 
             $(".hungry").fadeOut();
             //AJAX call to then call data gathered by Recipe AJAX call to async full call of all data
@@ -171,11 +157,8 @@ $(document).ready(function () {
 
                 // for loop cycles through Card creation below
                 for (let i = 0; i < 4; i++) {
-                  
+
                     // Restaurant Cards
-
-         
-
                     let colm = $("<div>");
                     colm.addClass("card card-custom resrow-" + [i]);
                     $("#restRow").append(colm);
@@ -200,7 +183,6 @@ $(document).ready(function () {
                 for (let i = 0; i < 4; i++) {
 
                     // Recipe Cards
-
                     let food = response2.results;
                     let colm2 = $("<div>");
                     colm2.addClass("card card-custom recrow-" + [i]);
@@ -229,10 +211,9 @@ $(document).ready(function () {
                         }
                         foodDiv.append(instructionsDiv);
 
-                    $("body").append(foodDiv);
-                    
-
-                })};
+                        $("body").append(foodDiv);
+                    });
+                };
             });
         });
     };
